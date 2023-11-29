@@ -11,6 +11,7 @@
   "author": "Jessie Yan",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.3.0",
     "koa-json-error": "^3.1.2",
