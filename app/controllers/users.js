@@ -8,15 +8,28 @@ class UsersCtl {
     ctx.body = await User.find();
   }
   async findById(ctx) { 
-    const user = await User.findById(ctx.params.id);
-    if (!user) { ctx.throw(404, 'user not found'); }
+    const { fields } = ctx.query;
+    let selectFields = '';
+    if (fields) {
+      selectFields = fields.split(';').filter(f => f).map(f => ' +' + f).join('');
+    }
+ 
+    const user = await User.findById(ctx.params.id).select(selectFields);
+    if (!user) { ctx.throw(404, 'user not found') }
     ctx.body = user;
   }
   
   async create(ctx) { 
     ctx.verifyParams({
       name: { type: 'string', required: true },
-      password:{ type: 'string', required: true}
+      password: { type: 'string', required: false },
+      avatar_url: { type: 'string', required: false },
+      gender: { type: 'string', required: false },
+      headline: { type: 'string', required: false },
+      locations: { type: 'array', itemType: 'String', required: false },
+      business: { type: 'string', required: false },
+      employments: { type: 'array', itemType: 'object', required: false },
+      educations: { type: 'array', itemType: 'object', required: false },
     });
     const { name } = ctx.request.body;
     const repeatedUser = await User.findOne({ name });
@@ -24,9 +37,14 @@ class UsersCtl {
     const user = await new User(ctx.request.body).save();
     ctx.body = user;
   }
+  // 
+  async checkOwner(ctx,next) { 
+    if (ctx.params.id !== ctx.state.user._id) { ctx.throw(403, 'Access Denied: You do not have permission') }
+    await next();
+  }
   async update(ctx) {    
     ctx.verifyParams({
-      name: { type: 'string', required: true },
+      name: { type: 'string', required: false },
     })
     const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body)
     if (!user) {
