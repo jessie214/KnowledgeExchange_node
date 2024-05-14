@@ -22,7 +22,7 @@ class UsersCtl {
   async create(ctx) { 
     ctx.verifyParams({
       name: { type: 'string', required: true },
-      password: { type: 'string', required: false },
+      password: { type: 'string', required: true },
       avatar_url: { type: 'string', required: false },
       gender: { type: 'string', required: false },
       headline: { type: 'string', required: false },
@@ -68,7 +68,19 @@ class UsersCtl {
     const { _id, name } = user;
     const token = jsonwebtoken.sign({ _id, name }, secret, { expiresIn: '1day' });
     ctx.body = { token }
-
+  }
+  async listFollowing(ctx) {
+    const user = await User.findById(ctx.params.id).select('+following').populate('following');
+    if (!user) { ctx.throw(404, 'user not found') }
+    ctx.body = user.following;
+  }
+  async follow(ctx) { 
+    const me = await User.findById(ctx.state.user._id).select('+following');
+    if (!me.following.map(id=>id.toString()).includes(ctx.params.id)) {
+      me.following.push(ctx.params.id);
+      me.save();
+    }  
+    ctx.status = 204;
   }
 }
 
