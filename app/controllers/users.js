@@ -82,6 +82,17 @@ class UsersCtl {
     }  
     ctx.status = 204;
   }
+  async unfollow(ctx) { 
+    const me = await User.findById(ctx.state.user._id).select('+following');
+    // get index of user in the following list
+    const index = me.following.map(id => id.toString).indexOf(ctx.params.id);
+    // include the id of user in the following list
+    if (index > -1) {
+      me.following.splice(index,1); // delete index
+      me.save();
+    }  
+    ctx.status = 204;
+  }
 }
 
 module.exports = new UsersCtl();
