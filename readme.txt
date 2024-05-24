@@ -1,8 +1,8 @@
-# Quora API
+# KnowledgeExchange API
 
 ## Introduction
 
-The Quora API is a Node.js project designed to provide backend services for a Quora-like website. It offers a RESTful API for user authentication, question posting, answer posting, voting, and other functionalities similar to Quora.
+The KnowledgeExchange API is a Node.js project designed to provide backend services for a knowledge exchange platform. It offers a RESTful API for user authentication, question posting, answer posting, voting, and other functionalities similar to popular Q&A platforms.
 
 ## Features
 
@@ -16,8 +16,8 @@ The Quora API is a Node.js project designed to provide backend services for a Qu
 
 To run the project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/yourusername/quora-api.git`
-2. Navigate to the project directory: `cd quora-api`
+1. Clone the repository: `git clone https://github.com/yourusername/knowledge-exchange-api.git`
+2. Navigate to the project directory: `cd knowledge-exchange-api`
 3. Install dependencies: `npm install`
 4. Configure environment variables: Create a `.env` file based on the provided `.env.example` file and configure the required variables.
 5. Start the server: `npm start`
@@ -58,11 +58,8 @@ The project follows the Semantic Versioning scheme. You can find available versi
 
 ## Authors
 
-- [Author Name](link-to-author-github-profile) - [Contact Information]
+- [Jessie Yan]
 
-## License
-
-This project is licensed under the [License Name] License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
